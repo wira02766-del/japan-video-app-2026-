@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101014">
+  <meta name="description" content="JAPAN VIDEO APP - Video library and premium membership">
+  <title>JAPAN VIDEO APP</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #101014;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #19191f;
+      padding: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      color: #ff4242;
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    button {
+      border: none;
+      padding: 11px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .login-btn {
+      background: #ff4242;
+      color: white;
+    }
+
+    .container {
+      padding: 18px;
+      max-width: 850px;
+      margin: auto;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #47151c, #181820);
+      padding: 27px 20px;
+      border-radius: 15px;
+      margin-bottom: 25px;
+    }
+
+    .hero h1 {
+      font-size: 27px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: #ccc;
+      line-height: 1.6;
+    }
+
+    .section-title {
+      font-size: 20px;
+      margin: 25px 0 15px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 13px;
+    }
+
+    .video-card {
+      background: #202027;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .poster {
+      height: 130px;
+      background: linear-gradient(135deg, #343440, #641f2b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 35px;
+    }
+
+    .video-info {
+      padding: 12px;
+    }
+
+    .video-info h3 {
+      font-size: 14px;
+      margin-bottom: 7px;
+    }
+
+    .video-info p {
+      color: #aaa;
+      font-size: 12px;
+    }
+
+    .premium {
+      background: linear-gradient(135deg, #35240d, #211b13);
+      border: 1px solid #a77b29;
+      padding: 20px;
+      border-radius: 13px;
+      margin-top: 25px;
+    }
+
+    .premium h2 {
+      color: #f3c45c;
+      margin-bottom: 10px;
+    }
+
+    .premium p {
+      color: #ccc;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .premium button {
+      background: #d49a32;
+      color: #17110a;
+    }
+
+    .panel {
+      background: #202027;
+      padding: 18px;
+      border-radius: 12px;
+      margin-top: 25px;
+    }
+
+    .panel h2 {
+      margin-bottom: 12px;
+    }
+
+    .panel p {
+      color: #bbb;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .notice {
+      background: #25252c;
+      padding: 13px;
+      border-radius: 8px;
+      margin-top: 15px;
+      color: #bbb;
+      font-size: 13px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 15px;
+      color: #888;
+      font-size: 12px;
+    }
+
+    @media (max-width: 360px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">JAPAN VIDEO</div>
+  <button class="login-btn" onclick="showLogin()">
+    Sign In
+  </button>
+</header>
+
+<main class="container">
+
+  <section class="hero">
+    <h1>Welcome to JAPAN VIDEO</h1>
+    <p>
+      Discover your video library.
+      Join our members area for exclusive content.
+    </p>
+  </section>
+
+  <h2 class="section-title">Public Videos</h2>
+
+  <section class="grid" id="publicVideos">
+    <article class="video-card">
+      <div class="poster">▶</div>
+      <div class="video-info">
+        <h3>Public Video 01</h3>
+        <p>Public Collection</p>
+      </div>
+    </article>
+
+    <article class="video-card">
+      <div class="poster">▶</div>
+      <div class="video-info">
+        <h3>Public Video 02</h3>
+        <p>Public Collection</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="premium">
+    <h2>👑 Premium Members For Movie</h2>
+    <p>
+      Exclusive members area.
+      Premium access is controlled by the administrator.
+    </p>
+    <button onclick="showPremium()">
+      Enter Premium
+    </button>
+    <div id="premiumMessage" class="notice hidden">
+      Please sign in and wait for administrator approval.
+    </div>
+  </section>
+
+  <section id="loginPanel" class="panel hidden">
+    <h2>Account Login</h2>
+    <p>
+      Google authentication will be connected
+      through Firebase in the next development stage.
+    </p>
+    <div class="notice">
+      Sign-in is not active yet.
+    </div>
+  </section>
+
+  <section id="adminPanel" class="panel hidden">
+    <h2>Admin Panel</h2>
+    <p>Member management and video management will be connected securely.</p>
+    <div class="notice">
+      Administrator authentication is not configured yet.
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  JAPAN VIDEO APP<br>
+  Mobile Progressive Web Application
+</footer>
+
+<script>
+  function showLogin() {
+    document.getElementById("loginPanel")
+      .classList.toggle("hidden");
+  }
+
+  function showPremium() {
+    document.getElementById("premiumMessage")
+      .classList.toggle("hidden");
+  }
+</script>
+
+</body>
+</html>
