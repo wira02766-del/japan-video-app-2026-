@@ -1,0 +1,21 @@
+name = "japan-video-api"
+main = "worker.js"
+compatibility_date = "2026-11-13"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "japan-video-db"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+migrations_dir = "migrations"
+
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "japan-video-media"
+
+[vars]
+GOOGLE_CLIENT_ID = "REPLACE_WITH_GOOGLE_OAUTH_WEB_CLIENT_ID"
+ADMIN_EMAILS = "REPLACE_WITH_YOUR_GOOGLE_EMAIL"
+# Set TELEGRAM_WEBHOOK_SECRET with: npx wrangler secret put TELEGRAM_WEBHOOK_SECRET
+
+
+# Pages service binding must be configured in the Pages dashboard as API_WORKER.
