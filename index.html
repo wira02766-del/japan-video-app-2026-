@@ -5,8 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#101014">
-  <meta name="description" content="JAPAN VIDEO APP - Video library and premium membership">
+  <meta name="description" content="JAPAN VIDEO APP - Online Video Platform">
+
   <title>JAPAN VIDEO APP</title>
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
 
   <style>
     * {
@@ -28,6 +32,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      border-bottom: 1px solid #303038;
       position: sticky;
       top: 0;
       z-index: 10;
@@ -35,69 +40,74 @@
 
     .logo {
       color: #ff4242;
-      font-size: 21px;
-      font-weight: bold;
-    }
-
-    button {
-      border: none;
-      padding: 11px 16px;
-      border-radius: 8px;
-      cursor: pointer;
+      font-size: 19px;
       font-weight: bold;
     }
 
     .login-btn {
       background: #ff4242;
+      border: none;
       color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    .container {
-      padding: 18px;
-      max-width: 850px;
+    main {
+      max-width: 900px;
       margin: auto;
+      padding: 18px;
+      padding-bottom: 90px;
     }
 
     .hero {
-      background: linear-gradient(135deg, #47151c, #181820);
-      padding: 27px 20px;
-      border-radius: 15px;
+      background: linear-gradient(135deg, #29202b, #17171d);
+      padding: 25px 18px;
+      border-radius: 14px;
       margin-bottom: 25px;
+      border: 1px solid #39303b;
     }
 
     .hero h1 {
-      font-size: 27px;
+      font-size: 25px;
       margin-bottom: 10px;
     }
 
     .hero p {
-      color: #ccc;
+      color: #bbb;
+      font-size: 14px;
       line-height: 1.6;
     }
 
     .section-title {
-      font-size: 20px;
+      font-size: 19px;
       margin: 25px 0 15px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
     }
 
-    .grid {
+    .video-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 13px;
     }
 
     .video-card {
-      background: #202027;
+      background: #1c1c23;
+      border: 1px solid #303038;
       border-radius: 12px;
       overflow: hidden;
     }
 
-    .poster {
-      height: 130px;
-      background: linear-gradient(135deg, #343440, #641f2b);
+    .thumbnail {
+      background: #292932;
+      aspect-ratio: 16 / 9;
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #aaa;
       font-size: 35px;
     }
 
@@ -111,43 +121,73 @@
     }
 
     .video-info p {
-      color: #aaa;
       font-size: 12px;
+      color: #999;
     }
 
-    .premium {
-      background: linear-gradient(135deg, #35240d, #211b13);
-      border: 1px solid #a77b29;
-      padding: 20px;
+    .watch-btn {
+      display: block;
+      width: 100%;
+      background: #ff4242;
+      color: white;
+      border: none;
+      padding: 10px;
+      margin-top: 12px;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .premium-area {
+      background: #1c1c23;
+      border: 1px solid #80652c;
       border-radius: 13px;
-      margin-top: 25px;
+      padding: 17px;
+      margin-top: 30px;
     }
 
-    .premium h2 {
-      color: #f3c45c;
+    .premium-area h2 {
+      color: #ffd36a;
       margin-bottom: 10px;
     }
 
-    .premium p {
-      color: #ccc;
-      line-height: 1.6;
-      margin-bottom: 15px;
+    .premium-message {
+      color: #bbb;
+      font-size: 14px;
+      line-height: 1.7;
     }
 
-    .premium button {
-      background: #d49a32;
-      color: #17110a;
+    .premium-lock {
+      text-align: center;
+      padding: 25px 10px;
+    }
+
+    .premium-lock .lock-icon {
+      font-size: 38px;
+      margin-bottom: 12px;
+    }
+
+    .premium-lock button {
+      background: #d5a63e;
+      color: #171717;
+      border: none;
+      padding: 11px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-top: 15px;
+      cursor: pointer;
     }
 
     .panel {
-      background: #202027;
+      display: none;
+      background: #1c1c23;
+      border: 1px solid #383840;
       padding: 18px;
+      margin-top: 22px;
       border-radius: 12px;
-      margin-top: 25px;
     }
 
     .panel h2 {
-      margin-bottom: 12px;
+      margin-bottom: 15px;
     }
 
     .panel p {
@@ -156,28 +196,41 @@
       font-size: 14px;
     }
 
-    .hidden {
-      display: none;
+    .panel input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      background: #101014;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 7px;
     }
 
-    .notice {
-      background: #25252c;
-      padding: 13px;
-      border-radius: 8px;
-      margin-top: 15px;
-      color: #bbb;
-      font-size: 13px;
+    .panel button {
+      padding: 11px 15px;
+      border: none;
+      border-radius: 7px;
+      background: #ff4242;
+      color: white;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .admin-note {
+      color: #ffcc70 !important;
+      margin-top: 10px;
     }
 
     footer {
       text-align: center;
-      padding: 30px 15px;
-      color: #888;
+      padding: 25px;
+      color: #777;
       font-size: 12px;
+      border-top: 1px solid #303038;
     }
 
-    @media (max-width: 360px) {
-      .grid {
+    @media (max-width: 380px) {
+      .video-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -189,100 +242,131 @@
 <header>
   <div class="logo">JAPAN VIDEO</div>
   <button class="login-btn" onclick="showLogin()">
-    Sign In
+    Login
   </button>
 </header>
 
-<main class="container">
+<main>
 
   <section class="hero">
     <h1>Welcome to JAPAN VIDEO</h1>
     <p>
-      Discover your video library.
-      Join our members area for exclusive content.
+      Watch videos online from your mobile device.
+      Premium content is available only to approved members.
     </p>
   </section>
 
-  <h2 class="section-title">Public Videos</h2>
+  <section>
+    <h2 class="section-title">🎬 Public Videos</h2>
 
-  <section class="grid" id="publicVideos">
-    <article class="video-card">
-      <div class="poster">▶</div>
-      <div class="video-info">
-        <h3>Public Video 01</h3>
-        <p>Public Collection</p>
-      </div>
-    </article>
+    <div class="video-grid" id="publicVideos">
 
-    <article class="video-card">
-      <div class="poster">▶</div>
-      <div class="video-info">
-        <h3>Public Video 02</h3>
-        <p>Public Collection</p>
-      </div>
-    </article>
-  </section>
+      <article class="video-card">
+        <div class="thumbnail">▶</div>
+        <div class="video-info">
+          <h3>Public Video</h3>
+          <p>Public video content will appear here.</p>
+          <button class="watch-btn" onclick="showNotice()">
+            Watch Video
+          </button>
+        </div>
+      </article>
 
-  <section class="premium">
-    <h2>👑 Premium Members For Movie</h2>
-    <p>
-      Exclusive members area.
-      Premium access is controlled by the administrator.
-    </p>
-    <button onclick="showPremium()">
-      Enter Premium
-    </button>
-    <div id="premiumMessage" class="notice hidden">
-      Please sign in and wait for administrator approval.
     </div>
   </section>
 
-  <section id="loginPanel" class="panel hidden">
+  <section class="premium-area">
+    <h2>👑 Premium Videos</h2>
+    <p class="premium-message">
+      Premium videos are available only to members
+      approved by the administrator.
+    </p>
+
+    <div class="premium-lock">
+      <div class="lock-icon">🔒</div>
+      <h3>Premium Members Only</h3>
+      <p class="premium-message">
+        Sign in and wait for administrator approval
+        to access premium videos.
+      </p>
+      <button onclick="showLogin()">
+        Member Login
+      </button>
+    </div>
+
+    <div id="premiumVideos" style="display:none">
+      <!-- Approved premium video list will be loaded here
+           from the secure backend. -->
+    </div>
+  </section>
+
+  <section class="panel" id="loginPanel">
     <h2>Account Login</h2>
     <p>
-      Google authentication will be connected
-      through Firebase in the next development stage.
+      Google Account sign-in will be connected
+      after backend configuration.
     </p>
-    <div class="notice">
-      Sign-in is not active yet.
-    </div>
+    <button onclick="showNotice()">
+      Continue with Google
+    </button>
+    <button onclick="closePanels()"
+      style="background:#444">
+      Close
+    </button>
+    <p class="admin-note">
+      Google Login is not active yet.
+    </p>
   </section>
 
-  <section id="adminPanel" class="panel hidden">
-    <h2>Admin Panel</h2>
-    <p>Member management and video management will be connected securely.</p>
-    <div class="notice">
-      Administrator authentication is not configured yet.
-    </div>
+  <section class="panel" id="adminPanel">
+    <h2>⚙️ Admin Panel</h2>
+    <p>
+      Administrator tools will be connected
+      through a secure backend.
+    </p>
+    <p>• Manage members</p>
+    <p>• Approve or revoke Premium access</p>
+    <p>• Manage public and premium videos</p>
+    <p>• Connect Telegram channels</p>
+    <p class="admin-note">
+      Admin authentication is not configured yet.
+    </p>
   </section>
 
 </main>
 
 <footer>
   JAPAN VIDEO APP<br>
-  Mobile Progressive Web Application
+  Online Video Platform
 </footer>
 
 <script>
   function showLogin() {
-    document.getElementById("loginPanel")
-      .classList.toggle("hidden");
+    closePanels();
+    document.getElementById("loginPanel").style.display = "block";
+    document.getElementById("loginPanel").scrollIntoView({
+      behavior: "smooth"
+    });
   }
 
-  function showPremium() {
-    document.getElementById("premiumMessage")
-      .classList.toggle("hidden");
+  function closePanels() {
+    document.getElementById("loginPanel").style.display = "none";
+    document.getElementById("adminPanel").style.display = "none";
+  }
+
+  function showNotice() {
+    alert("Video service is not connected yet. Please check back later.");
+  }
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./service-worker.js")
+        .then(() => console.log("Service Worker Registered"))
+        .catch(error => console.error("Service Worker Error:", error));
+    });
   }
 </script>
-  <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js")
-      .then(() => console.log("Service Worker Registered"))
-      .catch(error => console.error("Service Worker Error:", error));
-  });
-}
-  </script>
 
 </body>
 </html>
+
